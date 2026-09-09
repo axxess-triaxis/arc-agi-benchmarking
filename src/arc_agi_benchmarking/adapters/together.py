@@ -17,7 +17,7 @@ from arc_agi_benchmarking.utils.parsing import parse_and_validate_json
 
 from .provider import ProviderAdapter
 
-_CONFIG_ONLY_KWARGS = {"rate_limit", "pricing", "enable_thinking"}
+_CONFIG_ONLY_KWARGS = {"rate_limit", "pricing", "enable_thinking", "fallback_chain"}
 
 
 def _filter_api_kwargs(kwargs: Dict[str, Any]) -> Dict[str, Any]:

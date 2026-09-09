@@ -72,6 +72,85 @@ models:
       input: 0.0
       output: 0.0
 
+  # qwen3.8-27b answers directly (finish_reason "stop", no <think> block),
+  # confirmed live 2026-09-09. qwen3.6-27b on Groq is the reasoning variant
+  # (emits a <think> block and hit finish_reason "length" on a trivial
+  # request) -- do not use it here for the same reason gpt-oss-120b doesn't
+  # work: it can't finish reasoning within the free-tier per-minute cap.
+  - name: "groq-qwen3-8-27b"
+    model_name: "qwen/qwen3.8-27b"
+    provider: "groq"
+    api_key_env: "GROQ_API_KEY"
+    api_type: "chat_completions"
+    temperature: 0
+    # Groq enforces a SEPARATE output-tokens-per-minute (OTPM) cap of 1000 for
+    # this model -- confirmed live 2026-09-09 ("Request too large ... OTPM:
+    # Limit 1000, Requested 4096"). This cap applies to the requested
+    # max_tokens value itself, not just consumed usage, so max_tokens must
+    # stay under it regardless of pacing.
+    max_tokens: 900
+    # Same reasoning as groq-allam-2-7b's override: 8,000 tokens/minute total
+    # cap, paced conservatively since this repo's rate limiter doesn't know
+    # real per-request token cost in advance.
+    rate_limit:
+      rate: 1
+      period: 40
+    pricing:
+      date: "2026-09-09"
+      input: 0.0
+      output: 0.0
+    # NOT used in fallback-nemotron-then-allam below: confirmed live 2026-09-09
+    # that even a 900-token request still 429s against the 1000 OTPM cap once
+    # any usage exists in the rolling window -- too tight for real grid-sized
+    # ARC-AGI-2 answers. Kept as a config for lighter-weight, non-benchmark use.
+
+  # DeepSeek and xAI Grok were considered but ruled out 2026-09-09: DeepSeek's
+  # key is valid but the account has $0 balance; no xAI key. gpt-oss-20b/120b
+  # and qwen3.6-27b are reasoning models that burn Groq's free per-minute
+  # token cap before answering; qwen3.8-27b's own OTPM cap (see above) is too
+  # tight for real grid answers. nemotron-3-super-120b (below) is the one
+  # model tested that does genuine, substantive ARC-style reasoning -- it's
+  # just slow and token-hungry, which is accepted here as a real tradeoff.
+  - name: "openrouter-nemotron-3-super"
+    model_name: "nvidia/nemotron-3-super-120b-a12b:free"
+    provider: "openrouter"
+    api_key_env: "OPENROUTER_API_KEY"
+    api_type: "chat_completions"
+    temperature: 0
+    # Confirmed live 2026-09-09: still incomplete at 16,000 tokens on a real
+    # small ARC-AGI-2 task (still manually working through distance
+    # calculations). OpenRouter's free tier hasn't shown Groq's harsh
+    # per-minute token ceiling, so the constraint here is wall-clock time and
+    # this generous a budget, not rate limits -- accepted tradeoff per
+    # founder decision (quality over speed).
+    max_tokens: 32000
+    pricing:
+      date: "2026-09-09"
+      input: 0.0
+      output: 0.0
+
+  # Primary: nemotron-3-super (genuine reasoning, slow). Fallback: allam-2-7b
+  # on Groq (fast, reliable, weak) as a safety net so a task that outright
+  # fails on OpenRouter (rate limit, transport error, etc.) still gets some
+  # attempt rather than a null result. See adapters/fallback.py. Whichever
+  # chain member actually answers is reflected as-is in the Attempt's
+  # metadata (real model/provider/cost) -- this config's own pricing below is
+  # a placeholder, never used for cost math.
+  - name: "fallback-nemotron-then-allam"
+    model_name: "fallback"
+    provider: "fallback"
+    # ModelConfig requires api_key_env for any non-"random" provider, but
+    # FallbackAdapter never calls get_api_key() itself -- each chain member
+    # uses its own. This name is a schema-satisfying placeholder, not read.
+    api_key_env: "UNUSED_FALLBACK_NO_API_KEY"
+    fallback_chain:
+      - "openrouter-nemotron-3-super"
+      - "groq-allam-2-7b"
+    pricing:
+      date: "2026-09-09"
+      input: 0.0
+      output: 0.0
+
 ################
 ### Together ###
 ################

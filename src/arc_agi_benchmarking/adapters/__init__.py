@@ -18,3 +18,4 @@ from .claudeagentsdk import ClaudeagentsdkAdapter
 from .codexcli import CodexcliAdapter
 from .together import TogetherAdapter
 from .groq import GroqAdapter
+from .fallback import FallbackAdapter

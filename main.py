@@ -19,6 +19,7 @@ from arc_agi_benchmarking.adapters import (
     CodexcliAdapter,
     TogetherAdapter,
     GroqAdapter,
+    FallbackAdapter,
 )
 from dotenv import load_dotenv
 import arc_agi_benchmarking.utils as utils
@@ -53,6 +54,7 @@ PROVIDER_ADAPTERS = {
     "codexcli": CodexcliAdapter,
     "together": TogetherAdapter,
     "groq": GroqAdapter,
+    "fallback": FallbackAdapter,
 }
 
 
