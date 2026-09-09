@@ -44,17 +44,48 @@ rate, ~113s avg duration/task.
   (real API calls, real scoring, real answers) — not as evidence that
   `allam-2-7b` can solve ARC-AGI-2 in general. It cannot, at least not yet.
 
-## Pending — AGI-3 baseline
+## 2026-09-09 — AGI-3 baseline: 0/7 levels, 48 real actions (`ls20`)
 
-**Status:** Not yet established. `allam-2-7b`'s 4096-token context window is too
-small for even one ARC-AGI-3 game turn (confirmed live via Groq's own model API
-and a real `ls20` run — `context_length_exceeded` on turn 1, every retry).
-`groq-gpt-oss-120b` works mechanically instead (18 real actions taken on `ls20`
-in ~3 minutes, actively parsing frames and choosing valid actions) but hit
-Groq's shared daily token quota (200,000 TPD) mid-run before completing even
-level 1 (18/22 baseline actions).
+**Result:** `groq-gpt-oss-20b` on the `ls20` public demo game — **score 0.0,
+0/7 levels completed, 48 total actions, 4 resets**, over ~24 minutes. Every
+action was mechanically valid (real frame parsed, real action chosen and
+sent) — the run ended because it hit `gpt-oss-20b`'s own daily token quota
+(199,711/200,000 TPD), not because it exhausted level 1's own 110-action
+budget (it used 48 of those).
 
-**Next step:** re-attempt a full `ls20` run once the daily quota has recovered,
-to get a real baseline score (not just "it can take actions" — an actual
-completion/score number). Quota is a rolling 24-hour window; a fresh attempt is
-worth trying again after several hours, checked live rather than assumed.
+**Command (from `arc-agi-3-benchmarking`):**
+```bash
+uv run main.py --game=ls20 --config=groq-gpt-oss-20b
+```
+
+**Scorecard:** https://arcprize.org/scorecards/04f5c3cf-2096-44d9-b62f-2ee00b44de87
+
+**How this config was reached — three models tried, in order, each ruled out
+or confirmed for a distinct, live-verified reason:**
+1. `groq-allam-2-7b` — real context window is only 4096 tokens (confirmed via
+   Groq's own model API); `ls20`'s first-turn frame alone exceeds it, so
+   every attempt failed with `context_length_exceeded` before taking a
+   single action.
+2. `groq-gpt-oss-120b` — works mechanically (18 real actions taken in an
+   earlier attempt the same day) but its daily quota was already exhausted
+   from AGI-2 testing earlier, so a fresh attempt only got 3 actions before
+   hitting the same wall.
+3. `groq-qwen3-8-27b` — huge 131K context window, but Groq enforces a
+   separate input-tokens-per-minute cap of 7,000 for this model specifically;
+   `ls20`'s first-turn frame needs 8,894 input tokens, exceeding it on the
+   very first request regardless of pacing.
+4. `groq-gpt-oss-20b` (used for this result) — same model family as
+   `gpt-oss-120b`, but its own independent 200,000 TPD quota pool, which
+   still had headroom. Config added to
+   `arc-agi-3-benchmarking/benchmarking/model_configs.yaml`.
+
+**Honest read:** the AGI-3 pipeline is proven to work end-to-end (real frames,
+real actions, real quota tracking) — this is not a crash or a fabricated
+number. But the model has not demonstrated it can solve `ls20`'s level 1
+within the actions it got; it explored and reset several times without
+finding the mechanic. Same evidentiary bar as the AGI-2 numbers above: a real
+baseline, not a claim of capability beyond what was actually observed.
+
+**Next step:** re-attempt with more of `gpt-oss-20b`'s daily quota once it
+recovers (rolling 24h window), or try a fresh model/day for a longer,
+uninterrupted run at more of level 1's 110-action budget.
