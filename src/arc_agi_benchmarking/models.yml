@@ -30,6 +30,48 @@ models:
       input: 0.0
       output: 0.0
 
+############
+### Groq ###
+############
+
+  - name: "groq-gpt-oss-120b"
+    model_name: "openai/gpt-oss-120b"
+    provider: "groq"
+    api_key_env: "GROQ_API_KEY"
+    api_type: "chat_completions"
+    temperature: 0
+    max_tokens: 4096
+    pricing:
+      date: "2026-09-09"
+      input: 0.0
+      output: 0.0
+
+  # Non-reasoning model: no internal chain-of-thought, so the full max_tokens
+  # budget goes to the actual answer instead of being consumed by reasoning
+  # tokens first (the failure mode hit with gpt-oss-120b). Also has its own
+  # separate per-model daily quota on Groq, confirmed live 2026-09-09.
+  - name: "groq-allam-2-7b"
+    model_name: "allam-2-7b"
+    provider: "groq"
+    api_key_env: "GROQ_API_KEY"
+    api_type: "chat_completions"
+    temperature: 0
+    max_tokens: 4096
+    # Model-specific override: this repo's RequestRateLimiter paces by request
+    # count, not actual token cost, and allam-2-7b's Groq free-tier cap is
+    # 6,000 tokens/minute. A single ARC-AGI-2 task request has been observed
+    # using up to ~4,655 tokens (prompt + completion), so pacing at the
+    # provider-level default (25 req/60s) causes back-to-back 429s (confirmed
+    # live 2026-09-09: 4/5 tasks got zero attempts through at that rate).
+    # 1 request/45s keeps worst-case throughput under the cap with headroom.
+    rate_limit:
+      rate: 1
+      period: 45
+    pricing:
+      date: "2026-09-09"
+      input: 0.0
+      output: 0.0
+
 ################
 ### Together ###
 ################

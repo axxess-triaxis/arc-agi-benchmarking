@@ -10,6 +10,14 @@ import contextvars
 import sys
 import logging
 
+# Windows' default console encoding (cp1252) can't represent characters used
+# in preflight/status output (e.g. the checkmark in the preflight report),
+# causing a fatal UnicodeEncodeError on plain print(). Force UTF-8 stdout/
+# stderr; a no-op where the console is already UTF-8 (most POSIX setups).
+for _stream in (sys.stdout, sys.stderr):
+    if getattr(_stream, "encoding", None) and _stream.encoding.lower() != "utf-8":
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+
 from dotenv import load_dotenv
 load_dotenv()
 

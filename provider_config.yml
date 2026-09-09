@@ -57,5 +57,10 @@ together:
   rate: 60     # Together.ai serverless/dedicated endpoints; tune per account limits
   period: 60    # per 60 seconds
 
+groq:
+  rate: 25     # Conservative: Groq free tier is capped at 8,000 tokens/minute and
+  period: 60    # 200,000 tokens/day (rolling 24h window) -- request-rate isn't the
+                # real bottleneck here, token budget is; this just avoids bursts.
+
 # Add other provider keys (matching models.yml 'provider' field) and their limits as needed.
 # Ensure these provider keys exactly match what's in your models.yml for each model config.

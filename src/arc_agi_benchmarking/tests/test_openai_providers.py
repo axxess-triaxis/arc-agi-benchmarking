@@ -69,6 +69,7 @@ def mock_model_config(adapter_class):
         "dashscope": "DASHSCOPE_API_KEY",
         "mulerouter": "MULEROUTER_API_KEY",
         "xai": "XAI_API_KEY",
+        "groq": "GROQ_API_KEY",
     }
 
     return ModelConfig(

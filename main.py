@@ -18,6 +18,7 @@ from arc_agi_benchmarking.adapters import (
     ClaudeagentsdkAdapter,
     CodexcliAdapter,
     TogetherAdapter,
+    GroqAdapter,
 )
 from dotenv import load_dotenv
 import arc_agi_benchmarking.utils as utils
@@ -51,6 +52,7 @@ PROVIDER_ADAPTERS = {
     "claudeagentsdk": ClaudeagentsdkAdapter,
     "codexcli": CodexcliAdapter,
     "together": TogetherAdapter,
+    "groq": GroqAdapter,
 }
 
 
