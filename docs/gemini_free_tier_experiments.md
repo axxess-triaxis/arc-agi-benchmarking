@@ -96,3 +96,29 @@ uv run src/arc_agi_benchmarking/scoring/scoring.py \
 `data/arc-agi-1/data/evaluation`'s 400 task ids (`shuf --random-source=<(yes 42)`);
 its first 20 entries are byte-identical to `gemini_eval_20.txt`, so run 3's 20
 tasks are a strict subset of run 4's intended 100.
+
+## Planned run 5 (next real data point)
+
+Decision, 2026-09-18: wait for the free-tier daily quota to reset, then run a
+real 8-10 task batch (well under the 20/day cap, leaving headroom for retries)
+rather than the full 100 at once. `scripts/wait_and_run_gemini_batch.sh`
+polls `generate_content` every 5 minutes and, the moment a call succeeds
+(quota available again), immediately runs:
+
+```bash
+uv run cli/run_all.py \
+  --task_list_file data/sample/task_lists/gemini_eval_10.txt \
+  --config gemini-3-6-flash \
+  --data_dir data/arc-agi-1/data/evaluation \
+  --save_submission_dir submissions/gemini-3-6-flash-eval10 \
+  --max-concurrency 1
+```
+
+`gemini_eval_10.txt` is entries 21-30 of `gemini_eval_100.txt` (same seed-42
+ordering) -- deliberately *not* entries 1-20, since those are the tasks run 3
+already scored (`gemini_eval_20.txt`). This keeps every task's score unique
+across runs: run 3 covers entries 1-20, this planned run covers 21-30, and a
+future larger run can pick up at entry 31 -- all consistent subsets of the
+same seed-42 100-task ordering, no task ever re-scored. Real result (score,
+timing, whether the wait itself needed more than one polling window) will be
+appended above as a new row once it actually runs -- not written in advance.
