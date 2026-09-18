@@ -1,0 +1,27 @@
+{
+    "score": 1.0,
+    "total_tasks": 1,
+    "total_cost": 0.0,
+    "total_attempts": 2,
+    "avg_cost_per_task": 0.0,
+    "avg_cost_per_attempt": 0.0,
+    "avg_prompt_tokens_per_task": 760.0,
+    "avg_reasoning_tokens_per_task": 1461.0,
+    "avg_output_tokens_per_task": 96.0,
+    "avg_total_tokens_per_task": 2317.0,
+    "avg_duration_per_task": 11.37301,
+    "task_results": {
+        "66e6c45b": {
+            "score": 1.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 760,
+            "reasoning_tokens": 1461,
+            "output_tokens": 96,
+            "total_tokens": 2317,
+            "duration": 11.37301,
+            "num_attempts_with_empty_list": 0
+        }
+    },
+    "num_attempts_with_empty_list": 0
+}

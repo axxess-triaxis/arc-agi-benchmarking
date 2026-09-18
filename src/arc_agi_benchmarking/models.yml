@@ -40,9 +40,58 @@ models:
     api_key_env: "GROQ_API_KEY"
     api_type: "chat_completions"
     temperature: 0
-    max_tokens: 4096
+    # 2026-09-10: raised from 4096. gpt-oss-120b is a reasoning model that
+    # burns completion tokens on chain-of-thought before emitting the answer
+    # (4096 was too small -> finish_reason "length", empty content). Small
+    # ARC-AGI-2 task prompts tokenize to only ~640 tokens, so a 6500-token
+    # completion budget still keeps the whole request under Groq's free-tier
+    # 8,000 tokens/minute cap while giving the reasoning room to conclude.
+    max_tokens: 6500
+    # 1 request/40s: a full ~7K-token request nearly fills the per-minute
+    # budget, so back-to-back calls would 429; this paces them apart.
+    rate_limit:
+      rate: 1
+      period: 40
     pricing:
-      date: "2026-09-09"
+      date: "2026-09-10"
+      input: 0.0
+      output: 0.0
+
+  - name: "groq-gpt-oss-20b"
+    model_name: "openai/gpt-oss-20b"
+    provider: "groq"
+    api_key_env: "GROQ_API_KEY"
+    api_type: "chat_completions"
+    temperature: 0
+    # Smaller sibling of gpt-oss-120b, its own independent daily quota pool.
+    # Same reasoning-token behavior and the same 6500-token / 1-per-40s
+    # pacing rationale as above.
+    max_tokens: 6500
+    rate_limit:
+      rate: 1
+      period: 40
+    pricing:
+      date: "2026-09-10"
+      input: 0.0
+      output: 0.0
+
+  # Tuned for ARC-AGI-1 (2019), not v2: v1 prompts tokenize to only ~250
+  # tokens and its answer grids are small, so a 4500-token completion budget
+  # leaves generous reasoning room while keeping the whole request
+  # (~4750 tokens) comfortably under Groq's 8,000 tokens/minute free-tier
+  # cap even with the harness's back-to-back retries. 1 request/35s pacing.
+  - name: "groq-gpt-oss-20b-agi1"
+    model_name: "openai/gpt-oss-20b"
+    provider: "groq"
+    api_key_env: "GROQ_API_KEY"
+    api_type: "chat_completions"
+    temperature: 0
+    max_tokens: 4500
+    rate_limit:
+      rate: 1
+      period: 35
+    pricing:
+      date: "2026-09-10"
       input: 0.0
       output: 0.0
 
@@ -122,8 +171,9 @@ models:
     # calculations). OpenRouter's free tier hasn't shown Groq's harsh
     # per-minute token ceiling, so the constraint here is wall-clock time and
     # this generous a budget, not rate limits -- accepted tradeoff per
-    # founder decision (quality over speed).
-    max_tokens: 32000
+    # founder decision (quality over speed). Bumped to 48000 (2026-09-10) to
+    # give the verbose distance-transform-style reasoning room to conclude.
+    max_tokens: 48000
     pricing:
       date: "2026-09-09"
       input: 0.0
@@ -1378,6 +1428,23 @@ models:
 ################
 #### Gemini ####
 ################
+
+  - name: "gemini-3-6-flash"
+    model_name: "gemini-3.6-flash"
+    provider: "gemini"
+    api_key_env: "GOOGLE_API_KEY"
+    max_output_tokens: 64000
+    automatic_function_calling:
+      disable: true
+    pricing:
+      # Verified live via a free-tier ("AXESS TRiaxis") AI Studio project's
+      # API key, 2026-09-18 -- generate_content confirmed working, but no
+      # billing/pricing page checked for this project since it's unbilled.
+      # Zeroed rather than guessed; treat any cost totals for this config as
+      # unverified until a real pricing page is checked.
+      date: "2026-09-18"
+      input: 0.00
+      output: 0.00
 
   - name: "gemini-3-flash-preview-thinking-high"
     model_name: "models/gemini-3-flash-preview"

@@ -1,0 +1,126 @@
+{
+    "score": 0.0,
+    "total_tasks": 10,
+    "total_cost": 0.0,
+    "total_attempts": 32,
+    "avg_cost_per_task": 0.0,
+    "avg_cost_per_attempt": 0.0,
+    "avg_prompt_tokens_per_task": 0.0,
+    "avg_reasoning_tokens_per_task": 0.0,
+    "avg_output_tokens_per_task": 0.0,
+    "avg_total_tokens_per_task": 0.0,
+    "avg_duration_per_task": 0.0,
+    "task_results": {
+        "0934a4d8": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "135a2760": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "136b0064": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "13e47133": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 4,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "142ca369": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 4,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "16b78196": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "16de56c4": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 4,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "1818057f": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "195c6913": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 4,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        },
+        "1ae2feb7": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 6,
+            "prompt_tokens": 0,
+            "reasoning_tokens": 0,
+            "output_tokens": 0,
+            "total_tokens": 0,
+            "duration": 0.0,
+            "num_attempts_with_empty_list": 0
+        }
+    },
+    "num_attempts_with_empty_list": 0
+}

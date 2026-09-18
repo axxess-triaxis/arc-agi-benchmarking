@@ -1,0 +1,49 @@
+{
+    "score": 0.0,
+    "total_tasks": 3,
+    "total_cost": 0.0,
+    "total_attempts": 8,
+    "avg_cost_per_task": 0.0,
+    "avg_cost_per_attempt": 0.0,
+    "avg_prompt_tokens_per_task": 4673.0,
+    "avg_reasoning_tokens_per_task": 2210.6666666666665,
+    "avg_output_tokens_per_task": 5807.333333333333,
+    "avg_total_tokens_per_task": 10480.333333333334,
+    "avg_duration_per_task": 48.05707,
+    "task_results": {
+        "20270e3b": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 4,
+            "prompt_tokens": 5313,
+            "reasoning_tokens": 6632,
+            "output_tokens": 11936,
+            "total_tokens": 17249,
+            "duration": 138.851327,
+            "num_attempts_with_empty_list": 0
+        },
+        "28a6681f": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 4594,
+            "reasoning_tokens": 0,
+            "output_tokens": 1404,
+            "total_tokens": 5998,
+            "duration": 1.65339,
+            "num_attempts_with_empty_list": 0
+        },
+        "e8686506": {
+            "score": 0.0,
+            "cost": 0.0,
+            "attempts": 2,
+            "prompt_tokens": 4112,
+            "reasoning_tokens": 0,
+            "output_tokens": 4082,
+            "total_tokens": 8194,
+            "duration": 3.666493,
+            "num_attempts_with_empty_list": 0
+        }
+    },
+    "num_attempts_with_empty_list": 0
+}

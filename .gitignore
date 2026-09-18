@@ -184,3 +184,11 @@ analyze_submission_times.py
 .codex_*
 dummy_submissions
 dummy_results
+
+# External ARC-AGI dataset clones (see README step 0/"Real ARC-AGI tasks" --
+# `git clone https://github.com/fchollet/ARC-AGI.git data/arc-agi` etc.).
+# Each is its own git repo (nested .git) and fully reproducible from the
+# documented clone command, so not tracked here.
+data/arc-agi/
+data/arc-agi-1/
+data/arc-agi-2/
