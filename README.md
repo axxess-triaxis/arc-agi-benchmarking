@@ -1,3 +1,12 @@
+> **About this fork.** This is Triaxis Ventures' fork of
+> [arcprize/arc-agi-benchmarking](https://github.com/arcprize/arc-agi-benchmarking). Everything
+> below this note is upstream's README. Our own changes are three commits from 2026-09-09:
+> a Groq adapter with Windows fixes and rate pacing (d3a73a6), and two results recorded in
+> [MILESTONES.md](MILESTONES.md): 100% (2 of 2) on the ARC-AGI-2 *public demo* tasks with
+> `groq-allam-2-7b`, and an ARC-AGI-3 baseline of 0 of 7 levels on `ls20`. Neither is a claim
+> of general ARC-AGI capability; MILESTONES.md explains why.
+> Founder profile: [github.com/axxess-triaxis](https://github.com/axxess-triaxis).
+
 # Testing systems with ARC-AGI
 
 Run ARC-AGI tasks against multiple model adapters (OpenAI, Anthropic, Gemini, Fireworks, Grok, OpenRouter, X.AI, custom etc.) with built-in rate limiting, retries, and scoring.
